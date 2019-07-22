@@ -54,7 +54,7 @@ function App() {
         style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
           GET
         </button>
-      
+
       </div>
 
       <div>
@@ -83,7 +83,7 @@ function App() {
             },
           ]}
           layout={{
-            width: 750, 
+            width: 700, 
             height: 400, 
             title: 'Favoriot Data Visualization',
             legend: {
