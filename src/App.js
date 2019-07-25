@@ -1,109 +1,177 @@
 // npm i react-plotly.js plotly.js
 // npm i axios
-import React from 'react';
+import React, {Component} from 'react';
 import Plot from 'react-plotly.js';
 import './App.css';
+import axios from 'axios';
 
-function App() {
-  return (
-    <div className="container App mt-5">
-      <h2 style={{color:"white"}}>React ♥ Plotly ♥ Favoriot</h2>
+class App extends Component {
 
-      <div className='row mt-5 mb-3'>
+  constructor(){
+    super()
+    this.state = {
+      data: [],
+      isLoading: false
+    }
+  }
 
-        {/* temperature */}
-        <div class="input-group col-sm-4">
-          <input type="number" class="form-control"
-          placeholder='Temperature...'
-          />
-          <div class="input-group-append">
-            <span class="input-group-text">°C</span>
+  componentDidMount(){
+    this.setState({
+      isLoading: true
+    })
+    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=15'
+    var headers = {
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+      }
+    }
+    axios.get(url, headers)
+    .then((data)=>{
+      this.setState({
+        data: data.data.results,  // try the favoriot API first!
+        isLoading: false
+      })
+      console.log(this.state.data)
+      alert('Success to GET data 😍')
+    })
+    .catch(()=>{
+      this.setState({
+        isLoading: false
+      })
+      alert('Failed to GET data 😭')
+    })
+  }
+
+  render(){
+
+    var tempFinal = this.state.data.map((val, i) => {
+      return (
+        val.data.Temperature
+      )
+    })
+    var humFinal = this.state.data.map((val, i) => {
+      return (
+        val.data.Humidity
+      )
+    })
+    var potFinal = this.state.data.map((val, i) => {
+      return (
+        val.data.Potentio
+      )
+    })
+    var timeFinal = this.state.data.map((val, i)=>{
+      return (
+        val.stream_created_at.split('T')[0] + ' ' + val.stream_created_at.split('T')[1]
+      )
+    })
+
+    return (
+      <div className="container App mt-5">
+        <h2 style={{color:"white"}}>React ♥ Plotly ♥ Favoriot</h2>
+
+        <div className='row mt-5 mb-3'>
+
+          {/* temperature */}
+          <div className="input-group col-sm-4">
+            <input type="number" className="form-control"
+            placeholder='Temperature...'
+            />
+            <div className="input-group-append">
+              <span className="input-group-text">°C</span>
+            </div>
           </div>
-        </div>
 
-        {/* humidity */}
-        <div class="input-group col-sm-4">
-          <input type="number" class="form-control"
-          placeholder='Humidity...'
-          />
-          <div class="input-group-append">
-            <span class="input-group-text">%</span>
+          {/* humidity */}
+          <div className="input-group col-sm-4">
+            <input type="number" className="form-control"
+            placeholder='Humidity...'
+            />
+            <div className="input-group-append">
+              <span className="input-group-text">%</span>
+            </div>
           </div>
-        </div>
 
-        {/* potentio */}
-        <div class="input-group col-sm-4">
-          <input type="number" class="form-control"
-          placeholder='Potentio...'
-          />
-          <div class="input-group-append">
-            <span class="input-group-text">#</span>
+          {/* potentio */}
+          <div className="input-group col-sm-4">
+            <input type="number" className="form-control"
+            placeholder='Potentio...'
+            />
+            <div className="input-group-append">
+              <span className="input-group-text">#</span>
+            </div>
           </div>
-        </div>
 
-      </div>
-      
-      <div className='row mb-3 justify-content-around'>
+        </div>
         
-        <button class="form-control col-sm-6 btn btn-lg" 
-        style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
-          POST
-        </button>
-        
-        <button class="form-control col-sm-6 btn btn-lg"
-        style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
-          GET
-        </button>
+        <div className='row mb-3 justify-content-around'>
+          
+          <button className="form-control col-sm-6 btn btn-lg" 
+          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
+            POST
+          </button>
+          
+          <button className="form-control col-sm-6 btn btn-lg"
+          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
+            GET
+          </button>
 
-      </div>
+        </div>
 
-      <div>
-        <Plot
-          data={[
-            {
-              x: [1, 2, 3, 4, 5, 6, 7],
-              y: [1, 2, 2, 3, 4, 3, 4],
-              type: 'scattergl',
-              marker: {color: 'red'},
-              name: 'Temp (°C)'
-            },
-            {
-              x: [1, 2, 3, 4, 5, 6, 7],
-              y: [8, 6, 7, 6, 5, 4, 2],
-              type: 'scattergl',
-              marker: {color: 'blue'},
-              name: 'Hum (%)'
-            },
-            {
-              x: [1, 2, 3, 4, 5, 6, 7],
-              y: [5, 5, 6, 7, 4, 3, 3],
-              type: 'scattergl',
-              marker: {color: 'green'},
-              name: 'Pot'
-            },
-          ]}
-          layout={{
-            width: 700, 
-            height: 400, 
-            title: 'Favoriot Data Visualization',
-            legend: {
-              x: 0.75,
-              y: 1,
-              traceorder: 'normal',
-              font: {
-                family: 'sans-serif',
-                size: 12,
-                color: '#000'
-              },
-              bgcolor: '#E2E2E2',
-              bordercolor: '#FFFFFF',
-              borderwidth: 2
-            }
-          }}
-        />;
+        <div>
+          {
+            this.state.data 
+            ?
+            <Plot
+              data={[
+                {
+                  y: tempFinal ? tempFinal : 0,
+                  x: timeFinal ? timeFinal : 0,
+                  type: 'scattergl',
+                  marker: {color: 'red'},
+                  name: 'Temp (°C)'
+                },
+                {
+                  y: humFinal ? humFinal : 0,
+                  x: timeFinal ? timeFinal : 0,
+                  type: 'scattergl',
+                  marker: {color: 'blue'},
+                  name: 'Hum (%)'
+                },
+                {
+                  y: potFinal ? potFinal : 0,
+                  x: timeFinal ? timeFinal : 0,
+                  type: 'scattergl',
+                  marker: {color: 'green'},
+                  name: 'Pot'
+                },
+              ]}
+              layout={{
+                width: 700, 
+                height: 400, 
+                title: 'Favoriot Data Visualization',
+                legend: {
+                  x: 1,
+                  y: 1,
+                  traceorder: 'normal',
+                  font: {
+                    family: 'sans-serif',
+                    size: 12,
+                    color: '#000'
+                  },
+                  bgcolor: '#E2E2E2',
+                  bordercolor: '#FFFFFF',
+                  borderwidth: 2
+                }
+              }}
+            />
+            :
+            <div></div>
+          }
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
