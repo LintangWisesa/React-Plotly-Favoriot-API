@@ -11,7 +11,7 @@ class App extends Component {
     super()
     this.state = {
       data: [],
-      isLoading: false
+      isLoading: false,
     }
   }
 
@@ -19,7 +19,7 @@ class App extends Component {
     this.setState({
       isLoading: true
     })
-    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=15'
+    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
     var headers = {
       headers: {
         'Content-Type': 'application/json',
@@ -32,14 +32,72 @@ class App extends Component {
         data: data.data.results,  // try the favoriot API first!
         isLoading: false
       })
-      console.log(this.state.data)
-      alert('Success to GET data 😍')
     })
     .catch(()=>{
       this.setState({
         isLoading: false
       })
       alert('Failed to GET data 😭')
+    })
+  }
+
+  // when GET button clicked
+  getButton = () => {
+    this.setState({
+      isLoading: true
+    })
+    var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
+    var headers = {
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+      }
+    }
+    axios.get(url, headers)
+    .then((data)=>{
+      this.setState({
+        data: data.data.results,  // try the favoriot API first!
+        isLoading: false
+      })
+    })
+    .catch(()=>{
+      this.setState({
+        isLoading: false
+      })
+      alert('Failed to GET data 😭')
+    })
+  }
+  
+  // when POST button clicked
+  postButton = () => {
+    this.setState({
+      isLoading: true
+    })
+    var url = 'https://api.favoriot.com/v1/streams'
+    var headers = {
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkxpbnRhbmdfV2lzZXNhIiwicmVhZF93cml0ZSI6dHJ1ZSwiaWF0IjoxNDkzODgyODczfQ.0n_FIr4vapSjewJE2e7cb-FTXs3JsUMTHsTgT2mYNFs'
+      }
+    }
+    var dataBody = {
+      device_developer_id: 'deviceDefault@Lintang_Wisesa',
+      data: {
+        Temperature: this.refs.temp.value,
+        Humidity: this.refs.hum.value,
+        Potentio: this.refs.pot.value
+      }
+    }
+    axios.post(url, dataBody, headers)
+    .then((data)=>{
+      this.setState({
+        isLoading: false
+      })
+      alert('Successfully POST the data! 👍')
+      this.getButton()
+    })
+    .catch(() => {
+      alert('Failed to POST 😭')
     })
   }
 
@@ -76,6 +134,7 @@ class App extends Component {
           <div className="input-group col-sm-4">
             <input type="number" className="form-control"
             placeholder='Temperature...'
+            ref='temp'
             />
             <div className="input-group-append">
               <span className="input-group-text">°C</span>
@@ -86,6 +145,7 @@ class App extends Component {
           <div className="input-group col-sm-4">
             <input type="number" className="form-control"
             placeholder='Humidity...'
+            ref='hum'
             />
             <div className="input-group-append">
               <span className="input-group-text">%</span>
@@ -96,6 +156,7 @@ class App extends Component {
           <div className="input-group col-sm-4">
             <input type="number" className="form-control"
             placeholder='Potentio...'
+            ref='pot'
             />
             <div className="input-group-append">
               <span className="input-group-text">#</span>
@@ -107,12 +168,16 @@ class App extends Component {
         <div className='row mb-3 justify-content-around'>
           
           <button className="form-control col-sm-6 btn btn-lg" 
-          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
+          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}
+          onClick={this.postButton}
+          >
             POST
           </button>
           
           <button className="form-control col-sm-6 btn btn-lg"
-          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}>
+          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}
+          onClick={this.getButton}
+          >
             GET
           </button>
 
