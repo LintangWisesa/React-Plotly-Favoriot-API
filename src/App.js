@@ -1,8 +1,9 @@
-// npm i react-plotly.js plotly.js
-// npm i axios
 import React, {Component} from 'react';
-import Plot from 'react-plotly.js';
 import './App.css';
+
+// $ npm install react-plotly.js plotly.js
+// $ npm i axios
+import Plot from 'react-plotly.js'
 import axios from 'axios';
 
 class App extends Component {
@@ -10,15 +11,11 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      data: [],
-      isLoading: false,
+      data: []
     }
   }
 
   componentDidMount(){
-    this.setState({
-      isLoading: true
-    })
     var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
     var headers = {
       headers: {
@@ -27,25 +24,19 @@ class App extends Component {
       }
     }
     axios.get(url, headers)
-    .then((data)=>{
+    .then((x)=>{
+      console.log(x)
       this.setState({
-        data: data.data.results,  // try the favoriot API first!
-        isLoading: false
+        data: x.data.results
       })
     })
     .catch(()=>{
-      this.setState({
-        isLoading: false
-      })
-      alert('Failed to GET data 😭')
+      alert('Failed to get the data 😭')
     })
   }
 
-  // when GET button clicked
+  // get button 
   getButton = () => {
-    this.setState({
-      isLoading: true
-    })
     var url = 'https://api.favoriot.com/v1/streams?device_developer_id=deviceDefault@Lintang_Wisesa&max=10'
     var headers = {
       headers: {
@@ -54,25 +45,19 @@ class App extends Component {
       }
     }
     axios.get(url, headers)
-    .then((data)=>{
+    .then((x)=>{
+      console.log(x)
       this.setState({
-        data: data.data.results,  // try the favoriot API first!
-        isLoading: false
+        data: x.data.results
       })
     })
     .catch(()=>{
-      this.setState({
-        isLoading: false
-      })
-      alert('Failed to GET data 😭')
+      alert('Failed to get the data 😭')
     })
   }
-  
-  // when POST button clicked
+
+  // post button
   postButton = () => {
-    this.setState({
-      isLoading: true
-    })
     var url = 'https://api.favoriot.com/v1/streams'
     var headers = {
       headers: {
@@ -81,101 +66,84 @@ class App extends Component {
       }
     }
     var dataBody = {
-      device_developer_id: 'deviceDefault@Lintang_Wisesa',
+      device_developer_id: "deviceDefault@Lintang_Wisesa",
       data: {
         Temperature: this.refs.temp.value,
         Humidity: this.refs.hum.value,
-        Potentio: this.refs.pot.value
+        Potentio: this.refs.pot.value,
       }
     }
     axios.post(url, dataBody, headers)
-    .then((data)=>{
-      this.setState({
-        isLoading: false
-      })
-      alert('Successfully POST the data! 👍')
+    .then(()=>{
+      alert('Data posted successfully! 😍')
       this.getButton()
     })
-    .catch(() => {
-      alert('Failed to POST 😭')
+    .catch(()=>{
+      alert('Failed to post the data 😭')
     })
   }
 
   render(){
 
-    var tempFinal = this.state.data.map((val, i) => {
-      return (
-        val.data.Temperature
-      )
+    // get variables: temp, hum, pot, time
+    var temp = this.state.data.map((val, i)=>{
+      return val.data.Temperature
     })
-    var humFinal = this.state.data.map((val, i) => {
-      return (
-        val.data.Humidity
-      )
+    var hum = this.state.data.map((val, i)=>{
+      return val.data.Humidity
     })
-    var potFinal = this.state.data.map((val, i) => {
-      return (
-        val.data.Potentio
-      )
+    var pot = this.state.data.map((val, i)=>{
+      return val.data.Potentio
     })
-    var timeFinal = this.state.data.map((val, i)=>{
-      return (
-        val.stream_created_at.split('T')[0] + ' ' + val.stream_created_at.split('T')[1]
-      )
+    var time = this.state.data.map((val, i)=>{
+      return val.stream_created_at.split('T')[0] + ' ' + val.stream_created_at.split('T')[1] 
     })
 
     return (
-      <div className="container App mt-5">
-        <h2 style={{color:"white"}}>React ♥ Plotly ♥ Favoriot</h2>
+      <div className="App container mt-5">
+        <h2 style={{color:'white'}}>React ♥ Plotly ♥ Favoriot</h2>
 
         <div className='row mt-5 mb-3'>
-
+          
           {/* temperature */}
-          <div className="input-group col-sm-4">
-            <input type="number" className="form-control"
-            placeholder='Temperature...'
-            ref='temp'
-            />
-            <div className="input-group-append">
-              <span className="input-group-text">°C</span>
+          <div className='input-group col-sm-4'>
+            <input ref='temp' type='number' placeholder='Temperature...' className='form-control'/>
+            <div className='input-group-append'>
+              <span className='input-group-text'>°C</span>
             </div>
           </div>
 
           {/* humidity */}
-          <div className="input-group col-sm-4">
-            <input type="number" className="form-control"
-            placeholder='Humidity...'
-            ref='hum'
-            />
-            <div className="input-group-append">
-              <span className="input-group-text">%</span>
+          <div className='input-group col-sm-4'>
+            <input ref='hum' type='number' placeholder='Humidity...' className='form-control'/>
+            <div className='input-group-append'>
+              <span className='input-group-text'>%</span>
             </div>
           </div>
 
           {/* potentio */}
-          <div className="input-group col-sm-4">
-            <input type="number" className="form-control"
-            placeholder='Potentio...'
-            ref='pot'
-            />
-            <div className="input-group-append">
-              <span className="input-group-text">#</span>
+          <div className='input-group col-sm-4'>
+            <input ref='pot' type='number' placeholder='Potentio...' className='form-control'/>
+            <div className='input-group-append'>
+              <span className='input-group-text'>#</span>
             </div>
           </div>
 
         </div>
-        
+
         <div className='row mb-3 justify-content-around'>
-          
-          <button className="form-control col-sm-6 btn btn-lg" 
-          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}
+
+          {/* post button */}
+          <button className='btn btn-lg form-control col-sm-6'
+          style={{maxWidth:'350px', backgroundColor:'purple', color:'white'}}
           onClick={this.postButton}
           >
             POST
           </button>
-          
-          <button className="form-control col-sm-6 btn btn-lg"
-          style={{maxWidth:'320px', backgroundColor:'purple', color:'white'}}
+
+          {/* get button */}
+          <button className='btn btn-lg form-control col-sm-6'
+          style={{maxWidth:'350px', backgroundColor:'purple', color:'white'}}
           onClick={this.getButton}
           >
             GET
@@ -184,48 +152,44 @@ class App extends Component {
         </div>
 
         <div>
+
           {
-            this.state.data 
+            this.state.data
             ?
             <Plot
               data={[
                 {
-                  y: tempFinal ? tempFinal : 0,
-                  x: timeFinal ? timeFinal : 0,
+                  x: time ? time : 0,
+                  y: temp ? temp : 0,
                   type: 'scattergl',
-                  marker: {color: 'red'},
+                  marker: {color:'red'},
                   name: 'Temp (°C)'
                 },
                 {
-                  y: humFinal ? humFinal : 0,
-                  x: timeFinal ? timeFinal : 0,
+                  x: time ? time : 0,
+                  y: hum ? hum : 0,
                   type: 'scattergl',
-                  marker: {color: 'blue'},
+                  marker: {color:'blue'},
                   name: 'Hum (%)'
                 },
                 {
-                  y: potFinal ? potFinal : 0,
-                  x: timeFinal ? timeFinal : 0,
+                  x: time ? time : 0,
+                  y: pot ? pot : 0,
                   type: 'scattergl',
-                  marker: {color: 'green'},
+                  marker: {color:'green'},
                   name: 'Pot'
-                },
+                }
               ]}
-              layout={{
-                width: 700, 
-                height: 400, 
-                title: 'Favoriot Data Visualization',
+              layout = {{
+                width : '700', height : '400',
+                title : 'Favoriot Data Visualization',
                 legend: {
-                  x: 1,
-                  y: 1,
-                  traceorder: 'normal',
+                  x: 1, y: 1, traceorder: 'normal',
                   font: {
-                    family: 'sans-serif',
-                    size: 12,
-                    color: '#000'
+                    family: 'sans-serif', size: 12, color: 'black'
                   },
-                  bgcolor: '#E2E2E2',
-                  bordercolor: '#FFFFFF',
+                  bgcolor: 'lightgrey',
+                  bordercolor: 'grey',
                   borderwidth: 2
                 }
               }}
@@ -233,7 +197,9 @@ class App extends Component {
             :
             <div></div>
           }
+
         </div>
+
       </div>
     );
   }

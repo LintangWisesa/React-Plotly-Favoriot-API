@@ -1,68 +1,68 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![simplinnovation](https://4.bp.blogspot.com/-f7YxPyqHAzY/WJ6VnkvE0SI/AAAAAAAADTQ/0tDQPTrVrtMAFT-q-1-3ktUQT5Il9FGdQCLcB/s350/simpLINnovation1a.png)
 
-## Available Scripts
+# Favoriot Data Visualization Using React & Plotly.js
 
-In the project directory, you can run:
+[![Video Lintang](https://img.youtube.com/vi/vH764RTC_Vc/0.jpg)](https://www.youtube.com/watch?v=vH764RTC_Vc)
 
-### `npm start`
+1. Make sure [__*Node.js*__](https://nodejs.org/en/) is installed on your PC, then simply download or clone this repo and install all dependencies:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    ```bash
+    $ git clone https://github.com/LintangWisesa/React-Plotly-Favoriot-API.git
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+    $ cd React-Plotly-Favoriot-API
 
-### `npm test`
+    $ npm install
+    ```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#
 
-### `npm run build`
+2. Open your code editor (I'm using [__*Visual Studio Code*__](https://code.visualstudio.com/)), insert your __*Favoriot API key*__ and __*Favoriot device developer ID*__ to the __App.js__ file!
+    
+    - __*API key*__ goes to request headers:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        ```javascript
+        var headers = {
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'your_API_key'
+            }
+        }
+        ```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+    - __*Device developer ID*__ goes to request headers:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+        ```javascript
+        var dataBody = {
+            device_developer_id: 'your_device_developer_ID',
+            data: {
+                Temperature: this.state.input1,
+                Humidity: this.state.input2,
+                Potentio: this.state.input3
+            }
+        }
+        ```
+        
+#
 
-### `npm run eject`
+3. Run the project!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    ```bash
+    $ npm start
+    ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    The app will be run automatically on http://localhost:3000/. Try to POST some data & GET the data back from Favoriot!
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ![screenshot](./screenshot.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    Enjoy your code~ 😍
 
-## Learn More
+#
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Lintang Wisesa :love_letter: _lintangwisesa@ymail.com_
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[Facebook](https://www.facebook.com/lintangbagus) | 
+[Twitter](https://twitter.com/Lintang_Wisesa) |
+[Google+](https://plus.google.com/u/0/+LintangWisesa1) |
+[Youtube](https://www.youtube.com/user/lintangbagus) | 
+:octocat: [GitHub](https://github.com/LintangWisesa) |
+[Hackster](https://www.hackster.io/lintangwisesa)
