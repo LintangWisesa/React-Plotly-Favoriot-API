@@ -2,7 +2,7 @@
 
 # Favoriot Data Visualization Using React & Plotly.js
 
-[![Video Lintang](https://img.youtube.com/vi/vH764RTC_Vc/0.jpg)](https://www.youtube.com/watch?v=vH764RTC_Vc)
+[![Video Lintang](https://img.youtube.com/vi/_7HsPzlLqNQ/0.jpg)](https://www.youtube.com/watch?v=_7HsPzlLqNQ)
 
 1. Make sure [__*Node.js*__](https://nodejs.org/en/) is installed on your PC, then simply download or clone this repo and install all dependencies:
 
@@ -35,9 +35,9 @@
         var dataBody = {
             device_developer_id: 'your_device_developer_ID',
             data: {
-                Temperature: this.state.input1,
-                Humidity: this.state.input2,
-                Potentio: this.state.input3
+                Temperature: this.refs.temp.value,
+                Humidity: this.refs.hum.value,
+                Potentio: this.refs.pot.value
             }
         }
         ```
